@@ -1,3 +1,8 @@
 .idea/
 __pycache__/
 *$py.class
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
