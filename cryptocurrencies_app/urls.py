@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from dashboard.views import LandingPage, SingleCryptoPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', LandingPage.as_view(), name='landing'),
+    path('<int:currencie_id>/', SingleCryptoPage.as_view(), name='crypto'),
 ]
