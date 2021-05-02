@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Strona główna</title>
+</head>
+<body>
+<form action="/" method="post">
+    {% csrf_token %}
+    <label for="fiat">Waluta:</label>
+    <select name="fiat" id="fiat">
+        <option>PLN</option>
+        <option>EUR</option>
+        <option>GBP</option>
+        <option>USD</option>
+    </select>
+    <input type="submit" value="Zmień">
+</form>
+<table>
+    <thead>
+    <th>Symbol</th>
+    <th>Najniższy kurs</th>
+    <th>Najwyższy kurs</th>
+    <th> Średni kurs</th>
+    </thead>
+    <tbody>
+    {% for price in prices %}
+        <tr>
+            <td><a href="/{{ price.pk }}/">{{ price.market_symbol }}</a></td>
+            <td>{{ price.lowest_price }}</td>
+            <td>{{ price.highest_price }}</td>
+            <td>
+                {{ price.average_price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
