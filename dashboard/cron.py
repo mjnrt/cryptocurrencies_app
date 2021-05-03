@@ -30,3 +30,4 @@ def my_api_schedule():
                                              average_price=average_price)
             # currencies.append([market_symbol, lowest_price, highest_price, average_price])
     return CurrentPrices.objects.all()
+

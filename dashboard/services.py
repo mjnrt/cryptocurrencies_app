@@ -1,34 +1,22 @@
 import requests
 import json
-from models import CurrentPrices
-from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime, timezone
 
 
-# def get_current_prices():
-#     # currencies = []
-#     # response = requests.get('https://api.bitbay.net/rest/trading/stats')
-#     url = "https://api.bitbay.net/rest/trading/stats"
-#     headers = {'content-type': 'application/json'}
-#     response = requests.request("GET", url, headers=headers)
-#     current_prices = response.json()['items']
-#     for v in current_prices.values():
-#         market_symbol = v['m']
-#         lowest_price = v['l']
-#         highest_price = v['h']
-#         average_price = v['r24h']
-#         if market_symbol[-3:] == 'PLN' or market_symbol[-3:] == 'EUR' or market_symbol[-3:] == 'USD' or market_symbol[-3:] == 'GBP':
-#             try:
-#                 update_currencie = CurrentPrices.objects.get(market_symbol=market_symbol)
-#                 update_currencie.lowest_price = lowest_price
-#                 update_currencie.highest_price = highest_price
-#                 update_currencie.average_price = average_price
-#             except ObjectDoesNotExist:
-#                 CurrentPrices.objects.create(market_symbol=market_symbol,
-#                                              lowest_price=lowest_price,
-#                                              highest_price=highest_price,
-#                                              average_price=average_price)
-#             # currencies.append([market_symbol, lowest_price, highest_price, average_price])
-#     return CurrentPrices.objects.all()
-#
-#
-# print(get_current_prices())
+def my_historical_prices_api(from_time, to_time, interval):
+    if to_time == "now":
+        to_time = datetime.now()
+    to_timestamp = str(round(datetime.timestamp(datetime.strptime(to_time, "%Y-%m-%d %H:%M:%S"))))+"000"
+    from_timestamp = str(round(datetime.timestamp(datetime.strptime(from_time, "%Y-%m-%d %H:%M:%S"))))+"000"
+
+    url = f"https://api.bitbay.net/rest/trading/candle/history/BTC-PLN/{interval}?from={from_timestamp}&to={to_timestamp}"
+    response = requests.request("GET", url)
+
+    historical_prices = []
+    for item in response.json()['items']:
+        historical_prices.append([datetime.fromtimestamp(int(item[0][0:10])), item[1]['c']])
+
+    return historical_prices
+
+
+print(my_historical_prices_api('2021-05-03 14:00:00', '2021-05-03 15:30:00', 900))
