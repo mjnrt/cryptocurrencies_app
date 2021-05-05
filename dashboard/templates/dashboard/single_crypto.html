@@ -9,5 +9,10 @@
 <p>Minimalna wartość (24h): {{ crypto.lowest_price }}</p>
 <p>Maksymalna wartość (24h): {{ crypto.highest_price }}</p>
 <p>Średnia wartość (24h): {{ crypto.average_price }}</p>
+<button><a href="{% url 'landing' %}">Return</a></button>
+<br>
+    {% autoescape off %}
+    {{ plot }}
+    {% endautoescape %}
 </body>
 </html>
