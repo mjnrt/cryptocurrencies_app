@@ -47,19 +47,23 @@ class SingleCryptoPage(View):
         currencie = CurrentPrices.objects.get(pk=currencie_id)
         last_year_data = my_historical_prices_api('2021-01-01 00:00:00', 'now', 3600, currencie.market_symbol[0:3],
                                                   currencie.market_symbol[-3:])
-        ax = []
-        ay = []
+        ax = []  # date [X]
+        oy = []  # open price [Y]
+        cy = []  # close price [Y]
+        vy = []  # volume [Y]
         for single_data in last_year_data:
             ax.append(str(single_data[0]))
-            ay.append(float(single_data[1]))
+            oy.append(float(single_data[1]))
+            cy.append(float(single_data[2]))
+            vy.append(float(single_data[3]))
 
         fig = go.Figure()
-        # scatter1 = go.Scatter(x=ax, y=ay,
-        #                       mode='lines', name='open',
-        #                       opacity=0.8, marker_color='green')
-        # fig.add_trace(scatter1)
-        scatter2 = go.Scatter(x=ax, y=ay, mode='lines', name='close', opacity=0.8, marker_color='red')
+        scatter1 = go.Scatter(x=ax, y=oy, mode='lines', name='open', opacity=0.8, marker_color='green')
+        fig.add_trace(scatter1)
+        scatter2 = go.Scatter(x=ax, y=cy, mode='lines', name='close', opacity=0.8, marker_color='red')
         fig.add_trace(scatter2)
+        scatter3 = go.Scatter(x=ax, y=vy, mode='lines', name='volume', opacity=0.8, marker_color='blue')
+        fig.add_trace(scatter3)
         plot_div = plot(fig, output_type='div')
         # plot_div = plot([Scatter(x=ax, y=ay,
         #                          mode='lines', name=currencie.market_symbol,

@@ -17,9 +17,9 @@ def my_historical_prices_api(from_time, to_time, interval, market, fiat):
 
     historical_prices = []
     for item in response.json()['items']:
-        historical_prices.append([datetime.fromtimestamp(int(item[0][0:10])), item[1]['c']])
+        historical_prices.append([datetime.fromtimestamp(int(item[0][0:10])), item[1]['o'], item[1]['c'], item[1]['v']])
 
     return historical_prices
 
-
-# print(my_historical_prices_api('2021-05-03 14:00:00', '2021-05-03 14:45:00', 900))
+# TEST PRINT
+# print(my_historical_prices_api('2021-05-03 14:00:00', '2021-05-03 14:45:00', 900, 'BTC', 'PLN'))
