@@ -1,3 +1,8 @@
 from django.test import TestCase
 
-# Create your tests here.
+# to do list
+# CSS, wizualizacja
+# model predykcyjny
+# hstoryczne dane (przetworzone) z zapisem do bazy
+# celery, cron
+# rozszerzenie README !
