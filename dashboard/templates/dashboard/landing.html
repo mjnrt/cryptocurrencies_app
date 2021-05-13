@@ -1,8 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Crypto analyser</title>
+    <link rel=”stylesheet” href=”{% static 'styles.css' %}”>
 </head>
 <body>
 <form action="/" method="post">
@@ -16,7 +18,7 @@
     </select>
     <input type="submit" value="Zmień">
 </form>
-<table>
+<table class="current_price_table">
     <thead>
     <th>Symbol</th>
     <th>Najniższy kurs</th>

@@ -29,5 +29,6 @@ def my_api_schedule():
                                              highest_price=highest_price,
                                              average_price=average_price)
             # currencies.append([market_symbol, lowest_price, highest_price, average_price])
+    print('Odpytałem crona')
     return CurrentPrices.objects.all()
 
