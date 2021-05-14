@@ -4,26 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Crypto analyser</title>
-    <link rel=”stylesheet” href=”{% static 'styles.css' %}”>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<form action="/" method="post">
-    {% csrf_token %}
-    <label for="fiat">Waluta:</label>
-    <select name="fiat" id="fiat">
-        <option>PLN</option>
-        <option>EUR</option>
-        <option>GBP</option>
-        <option>USD</option>
-    </select>
-    <input type="submit" value="Zmień">
-</form>
-<table class="current_price_table">
+<div class="fiat-option">
+    <form action="/" method="post">
+        {% csrf_token %}
+        <label for="fiat">Waluta:</label>
+        <select name="fiat" id="fiat">
+            <option>PLN</option>
+            <option>EUR</option>
+            <option>GBP</option>
+            <option>USD</option>
+        </select>
+        <input type="submit" value="Zmień">
+    </form>
+</div>
+<table class="table table-dark">
     <thead>
-    <th>Symbol</th>
-    <th>Najniższy kurs</th>
-    <th>Najwyższy kurs</th>
-    <th> Średni kurs</th>
+    <th scope="col">Symbol</th>
+    <th scope="col">Najniższy kurs</th>
+    <th scope="col">Najwyższy kurs</th>
+    <th scope="col"> Średni kurs</th>
     </thead>
     <tbody>
     {% for price in prices %}

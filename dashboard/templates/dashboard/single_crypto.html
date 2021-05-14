@@ -1,18 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{ crypto.market_symbol }}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<h3>{{ crypto.market_symbol }}</h3>
-<p>Minimalna wartość (24h): {{ crypto.lowest_price }}</p>
-<p>Maksymalna wartość (24h): {{ crypto.highest_price }}</p>
-<p>Średnia wartość (24h): {{ crypto.average_price }}</p>
-<button><a href="{% url 'landing' %}">Return</a></button>
+<div class="crypto-info">
+    <h3>{{ crypto.market_symbol }}</h3>
+    <p>Minimalna wartość (24h): {{ crypto.lowest_price }}</p>
+    <p>Maksymalna wartość (24h): {{ crypto.highest_price }}</p>
+    <p>Średnia wartość (24h): {{ crypto.average_price }}</p>
+    <a id="return-button" href="{% url 'landing' %}">
+        <button class="btn btn-outline-danger">Return</button>
+    </a>
+</div>
 <br>
-    {% autoescape off %}
+{% autoescape off %}
     {{ plot }}
-    {% endautoescape %}
+{% endautoescape %}
 </body>
 </html>

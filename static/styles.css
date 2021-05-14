@@ -1,0 +1,14 @@
+#return-button {
+    width: 150px;
+    padding-left: 10%;
+}
+
+.crypto-info {
+    height: 220px;
+    width: 50%;
+    display: block;
+    padding-left: 10px;
+    background-color: darkgray;
+    border: 1px solid orange;
+    border-radius: 10px;
+}
