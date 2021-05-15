@@ -7,6 +7,7 @@ from .services import my_historical_prices_api
 from plotly.offline import plot
 from plotly.graph_objs import Scatter
 import plotly.graph_objs as go
+from .services import predict_prices
 
 
 class LandingPage(View):
@@ -42,6 +43,7 @@ class LandingPage(View):
 
 class SingleCryptoPage(View):
     template_name = 'dashboard/single_crypto.html'
+    prediction_status = False
 
     def get(self, request, currencie_id):
         currencie = CurrentPrices.objects.get(pk=currencie_id)
@@ -57,7 +59,8 @@ class SingleCryptoPage(View):
             cy.append(float(single_data[2]))
             vy.append(float(single_data[3]))
 
-        fig = go.Figure()
+        # layout = go.Layout(paper_bgcolor='')  # setting background plot color
+        fig = go.Figure()                       # layout=layout
         scatter1 = go.Scatter(x=ax, y=oy, mode='lines', name='open', opacity=0.8, marker_color='green')
         fig.add_trace(scatter1)
         scatter2 = go.Scatter(x=ax, y=cy, mode='lines', name='close', opacity=0.8, marker_color='red')
@@ -69,6 +72,24 @@ class SingleCryptoPage(View):
         #                          mode='lines', name=currencie.market_symbol,
         #                          opacity=0.8, marker_color='blue')],
         #                 output_type='div')
+        self.prediction_status = False
         ctx = {'crypto': currencie,
-               'plot': plot_div}
+               'plot': plot_div,
+               'prediction_status': self.prediction_status}
+        return render(request, self.template_name, ctx)
+
+    def post(self, request, currencie_id):
+        prediction_currencie = request.POST.get('predict')
+        if request.POST.get('predict'):
+            return redirect(f'/list/{currencie_id}/predicting/')
+
+
+class PredictionPage(View):
+    template_name = 'dashboard/predicting.html'
+
+    def get(self, request, currencie_id):
+        currencie = CurrentPrices.objects.get(pk=currencie_id)
+        predicted_price = predict_prices()
+        ctx = {"currencie": currencie,
+               "predicted_price": predicted_price}
         return render(request, self.template_name, ctx)

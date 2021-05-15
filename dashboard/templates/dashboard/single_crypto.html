@@ -1,26 +1,30 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ crypto.market_symbol }}</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
-<body>
-<div class="crypto-info">
-    <h3>{{ crypto.market_symbol }}</h3>
-    <p>Minimalna wartość (24h): {{ crypto.lowest_price }}</p>
-    <p>Maksymalna wartość (24h): {{ crypto.highest_price }}</p>
-    <p>Średnia wartość (24h): {{ crypto.average_price }}</p>
-    <a id="return-button" href="{% url 'landing' %}">
-        <button class="btn btn-outline-danger">Return</button>
-    </a>
-</div>
-<br>
-{% autoescape off %}
-    {{ plot }}
-{% endautoescape %}
-</body>
-</html>
+{% extends 'dashboard/base.html' %}
+
+{% block title %} {{ crypto.market_symbol }} {% endblock %}
+
+{% block content %}
+    <div class="crypto-info">
+        <div id="crypto-info-wrapper-1">
+            <h3 id="market-symbol">{{ crypto.market_symbol }}</h3>
+            <p>Minimalna wartość (24h): {{ crypto.lowest_price }}</p>
+            <p>Maksymalna wartość (24h): {{ crypto.highest_price }}</p>
+            <p>Średnia wartość (24h): {{ crypto.average_price }}</p>
+        </div>
+        <div id="crypto-info-wrapper-2">
+            <a id="return-button" href="{% url 'landing' %}">
+                <button class="btn btn-info">< Powrót</button>
+            </a>
+        </div>
+    </div>
+    {% autoescape off %}
+        {{ plot }}
+    {% endautoescape %}
+    <div class="prediction">
+        <h3>Predykcja cen</h3>
+        Przewiduj cenę:
+        <form action="/list/{{ crypto.pk }}/" method="post">
+            {% csrf_token %}
+            <button type="submit" name="predict" value="{{ crypto.pk }}">Wykonaj predykcję</button>
+        </form>
+    </div>
+{% endblock %}

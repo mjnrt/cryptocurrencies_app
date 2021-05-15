@@ -1,14 +1,85 @@
 #return-button {
     width: 150px;
-    padding-left: 10%;
+    float: right;
 }
 
 .crypto-info {
-    height: 220px;
+    width: 100%;
+    border: 1px solid #05fce8;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 10px 10px;
+}
+
+#crypto-info-wrapper-1 {
     width: 50%;
-    display: block;
-    padding-left: 10px;
-    background-color: darkgray;
-    border: 1px solid orange;
-    border-radius: 10px;
+    float:left;
+    border: 1px solid white;
+    text-align: center;
+    font-weight: bolder;
+}
+
+#crypto-info-wrapper-2 {
+    border: 1px solid green;
+    overflow: hidden;
+}
+
+.page-container {
+    position: relative;
+    min-height: 100vh;
+    background: #212529;
+    /*background: rgb(0,0,0);*/
+    /*background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(65,65,65,1) 90%);*/
+}
+
+.content {
+    padding-bottom: 2.5rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    background-color: #00afc9;
+    color: white;
+    text-align: center;
+}
+
+.landing-nav {
+    overflow: hidden;
+}
+
+.landing-nav-1 {
+    float:left;
+    border: 1px solid white;
+    text-align: center;
+    padding: 20px 20px;
+    width: 60%;
+}
+
+.fiat-option {
+    width: 40%;
+    overflow: hidden;
+    padding: 20px 20px;
+    text-align: center;
+    font-size: large;
+    font-weight: bolder;
+
+}
+
+#fiat-label {
+    color: white;
+}
+#market-symbol {
+    color: white;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+p {
+    color: white;
+}
+
+.btn {
+    font-weight: bold;
 }
