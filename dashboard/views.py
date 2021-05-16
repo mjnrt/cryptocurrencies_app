@@ -60,7 +60,7 @@ class SingleCryptoPage(View):
             vy.append(float(single_data[3]))
 
         # layout = go.Layout(paper_bgcolor='')  # setting background plot color
-        fig = go.Figure()                       # layout=layout
+        fig = go.Figure()  # layout=layout
         scatter1 = go.Scatter(x=ax, y=oy, mode='lines', name='open', opacity=0.8, marker_color='green')
         fig.add_trace(scatter1)
         scatter2 = go.Scatter(x=ax, y=cy, mode='lines', name='close', opacity=0.8, marker_color='red')
@@ -81,7 +81,18 @@ class SingleCryptoPage(View):
     def post(self, request, currencie_id):
         prediction_currencie = request.POST.get('predict')
         if request.POST.get('predict'):
-            return redirect(f'/list/{currencie_id}/predicting/')
+            return redirect(f'/list/{currencie_id}/predykcja/')
+        elif request.POST.get('table-data'):
+            return redirect(f'/list/{currencie_id}/tabela-danych')
+
+
+class DataTablePage(View):
+    template_name = "dashboard/data-table.html"
+
+    def get(self, request, currencie_id):
+        currencie = CurrentPrices.objects.get(pk=currencie_id)
+        ctx = {"currencie": currencie}
+        return render(request, self.template_name, ctx)
 
 
 class PredictionPage(View):
@@ -89,7 +100,5 @@ class PredictionPage(View):
 
     def get(self, request, currencie_id):
         currencie = CurrentPrices.objects.get(pk=currencie_id)
-        predicted_price = predict_prices()
-        ctx = {"currencie": currencie,
-               "predicted_price": predicted_price}
+        ctx = {"currencie": currencie}
         return render(request, self.template_name, ctx)

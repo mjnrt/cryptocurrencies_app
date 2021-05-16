@@ -19,12 +19,23 @@
     {% autoescape off %}
         {{ plot }}
     {% endautoescape %}
-    <div class="prediction">
-        <h3>Predykcja cen</h3>
-        Przewiduj cenę:
-        <form action="/list/{{ crypto.pk }}/" method="post">
-            {% csrf_token %}
-            <button type="submit" name="predict" value="{{ crypto.pk }}">Wykonaj predykcję</button>
-        </form>
+    <div class="prediction-data">
+        <div class="table-data">
+            <h3 id="market-symbol">Dane tabelaryczne</h3>
+            <p>Tabela danych:</p>
+            <form action="/list/{{ crypto.pk }}/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-info" id="btn-table-data" name="table-data" value="{{ crypto.pk }}">Pokaż</button>
+            </form>
+        </div>
+        <div class="prediction">
+            <h3 id="market-symbol">Przewidywanie kursu</h3>
+            <p>Przewiduj cenę:</p>
+            <form action="/list/{{ crypto.pk }}/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-info" id="btn-prediction" name="predict" value="{{ crypto.pk }}">Wykonaj predykcję</button>
+            </form>
+        </div>
     </div>
+
 {% endblock %}

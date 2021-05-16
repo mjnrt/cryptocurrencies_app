@@ -1,6 +1,10 @@
 {% extends 'dashboard/base.html' %}
 {% block title %}{% endblock %}
 {% block content %}
-    <h3 id="market-symbol">Przewidywana cena dla {{ currencie.market_symbol }}:</h3>
+    <h3 id="market-symbol">Przewidywanie ceny dla {{ currencie.market_symbol }}:</h3>
+    <form action="/list/{{ currencie.pk }}/predykcja/" method="post">
+    {% csrf_token %}
+    <button type="submit" name="make-prediction"  class="btn btn-info" value="{{ currencie.pk }}">Wykonaj predykcję</button>
+    </form>
     <h3 id="market-symbol">{{ predicted_price }}</h3>
 {% endblock %}

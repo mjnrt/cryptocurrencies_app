@@ -13,14 +13,13 @@
 
 #crypto-info-wrapper-1 {
     width: 50%;
-    float:left;
+    float: left;
     border: 1px solid white;
     text-align: center;
     font-weight: bolder;
 }
 
 #crypto-info-wrapper-2 {
-    border: 1px solid green;
     overflow: hidden;
 }
 
@@ -51,7 +50,7 @@
 }
 
 .landing-nav-1 {
-    float:left;
+    float: left;
     border: 1px solid white;
     text-align: center;
     padding: 20px 20px;
@@ -71,6 +70,7 @@
 #fiat-label {
     color: white;
 }
+
 #market-symbol {
     color: white;
     font-family: "Helvetica Neue", sans-serif;
@@ -78,8 +78,44 @@
 
 p {
     color: white;
+    font-family: "Helvetica Neue", sans-serif;
 }
+
 
 .btn {
     font-weight: bold;
+}
+
+.prediction-data {
+    overflow: hidden;
+    padding: 10px 40px;
+}
+
+.table-data {
+    width: 45%;
+    float: left;
+    border: 1px solid white;
+    padding: 10px 10px;
+    margin-right: 50px;
+}
+
+.prediction {
+    width: 45%;
+    overflow: hidden;
+    border: 1px solid white;
+    padding: 10px 10px;
+}
+
+#btn-table-data {
+    position: relative;
+    left: 85%;
+    bottom: 10%;
+    padding: 10px 10px;
+}
+
+#btn-prediction {
+    position: relative;
+    left: 70%;
+    bottom: 10%;
+    padding: 10px 10px
 }
