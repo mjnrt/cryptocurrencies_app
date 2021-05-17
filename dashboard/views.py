@@ -8,7 +8,7 @@ from plotly.offline import plot
 from plotly.graph_objs import Scatter
 import plotly.graph_objs as go
 from .services import predict_prices
-
+from datetime import datetime, timedelta
 
 class LandingPage(View):
     template_name = 'dashboard/landing.html'
@@ -92,6 +92,21 @@ class DataTablePage(View):
     def get(self, request, currencie_id):
         currencie = CurrentPrices.objects.get(pk=currencie_id)
         ctx = {"currencie": currencie}
+        return render(request, self.template_name, ctx)
+
+    def post(self, request, currencie_id):
+        currencie = CurrentPrices.objects.get(pk=currencie_id)
+        days_option = request.POST.get('days')
+        if days_option == 'od początku roku':
+            table_data = my_historical_prices_api('2021-01-01 00:00:00', "now", 86400, currencie.market_symbol[0:3],
+                                                  currencie.market_symbol[-3:])
+        else:
+            dt1 = datetime.now() - timedelta(int(days_option))
+            from_date = f"{dt1.year}-{dt1.month}-{dt1.day} {dt1.hour}:{dt1.minute}:{dt1.second}"
+            table_data = my_historical_prices_api(from_date, "now", 86400, currencie.market_symbol[0:3], currencie.market_symbol[-3:])
+        table_data.reverse()
+        ctx = {'table_data': table_data,
+               'currencie': currencie}
         return render(request, self.template_name, ctx)
 
 

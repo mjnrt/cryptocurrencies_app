@@ -5,7 +5,6 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 from matplotlib.pylab import rcParams
-
 rcParams['figure.figsize'] = 20, 10
 
 

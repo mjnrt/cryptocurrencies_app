@@ -57,18 +57,22 @@
     width: 60%;
 }
 
-.fiat-option {
+.fiat-option, .days-option {
     width: 40%;
     overflow: hidden;
     padding: 20px 20px;
-    text-align: center;
     font-size: large;
     font-weight: bolder;
-
+    text-align: center;
 }
 
-#fiat-label {
+#fiat-label, #days-label {
     color: white;
+    font-weight: bold;
+}
+
+#fiat, #days {
+    width: 100px;
 }
 
 #market-symbol {
@@ -97,6 +101,11 @@ p {
     border: 1px solid white;
     padding: 10px 10px;
     margin-right: 50px;
+}
+
+.table-container {
+    width: 60%;
+    margin: auto;
 }
 
 .prediction {
