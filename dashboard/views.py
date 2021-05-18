@@ -10,8 +10,17 @@ import plotly.graph_objs as go
 from .services import predict_prices
 from datetime import datetime, timedelta
 
+
 class LandingPage(View):
     template_name = 'dashboard/landing.html'
+
+    def get(self, request):
+        ctx = {}
+        return render(request, self.template_name, ctx)
+
+
+class ListPage(View):
+    template_name = 'dashboard/list.html'
 
     def get(self, request):
         prices = my_api_schedule()

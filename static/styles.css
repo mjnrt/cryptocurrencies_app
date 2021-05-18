@@ -1,3 +1,32 @@
+.navigation-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+    height: 8vh;
+  background-color: #212529;
+}
+
+#nav-btn {
+  float: left;
+}
+
+#nav-btn #nav-a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#nav-btn #nav-a:hover {
+  background-color: #111;
+}
+
+.active {
+    background-color: #138496;
+}
+
 #return-button {
     width: 150px;
     float: right;
@@ -21,14 +50,16 @@
 
 #crypto-info-wrapper-2 {
     overflow: hidden;
+    padding: 20px 20px;
+    font-size: large;
+    font-weight: bolder;
+    text-align: center;
 }
 
 .page-container {
     position: relative;
     min-height: 100vh;
     background: #212529;
-    /*background: rgb(0,0,0);*/
-    /*background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(65,65,65,1) 90%);*/
 }
 
 .content {
@@ -45,11 +76,11 @@
     text-align: center;
 }
 
-.landing-nav {
+.list-nav {
     overflow: hidden;
 }
 
-.landing-nav-1 {
+.list-nav-1 {
     float: left;
     border: 1px solid white;
     text-align: center;
@@ -84,7 +115,6 @@ p {
     color: white;
     font-family: "Helvetica Neue", sans-serif;
 }
-
 
 .btn {
     font-weight: bold;
@@ -127,4 +157,31 @@ p {
     left: 70%;
     bottom: 10%;
     padding: 10px 10px
+}
+
+.about {
+    width: 60%;
+    margin: auto;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 20px 20px;
+}
+
+.landing-container {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#github-logo {
+    width: 50px;
+    height: 50px;
+    opacity: 0.7;
+}
+
+#homepage-logo {
+    width: 60px;
+    height: 30px;
+    opacity: 0.7;
 }
