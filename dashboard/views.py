@@ -123,6 +123,26 @@ class PredictionPage(View):
     template_name = 'dashboard/predicting.html'
 
     def get(self, request, currencie_id):
+        predicting_status = False
         currencie = CurrentPrices.objects.get(pk=currencie_id)
-        ctx = {"currencie": currencie}
+        ctx = {"currencie": currencie,
+               "predicting": predicting_status}
         return render(request, self.template_name, ctx)
+
+    def post(self, request, currencie_id):
+        currencie = CurrentPrices.objects.get(pk=currencie_id)
+        if "make-prediction" in request.POST:
+            predicted_price, prediction_status = predict_prices()
+            if currencie.average_price > predicted_price:
+                message = "W najbliższym dniu kurs będzie maleć. To nie jest dobra opcja na inwestycję."
+                img = '<img src="static/decrease.png" id="price-arrow" alt="decrease arrow">'
+            else:
+                message = "Przewidywana cena jest wyższa. Zainwestuj teraz!"
+                img = '<img src="static/increase.png" id="price-arrow" alt="increase arrow">'
+            ctx = {"predicted_price": predicted_price,
+                   "predicting": prediction_status,
+                   "currencie": currencie,
+                   "message": message,
+                   "img": img}
+            return render(request, self.template_name, ctx)
+        return render(request, self.template_name)

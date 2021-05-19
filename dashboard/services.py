@@ -108,4 +108,6 @@ def predict_prices():
 
     prediction = model.predict(real_data)
     prediction = scaler.inverse_transform(prediction)
-    return prediction[0]
+
+    predicting_status = True
+    return prediction[0][0], predicting_status

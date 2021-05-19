@@ -1,10 +1,30 @@
 {% extends 'dashboard/base.html' %}
 {% block title %}{% endblock %}
 {% block content %}
-    <h3 id="market-symbol">Przewidywanie ceny dla {{ currencie.market_symbol }}:</h3>
-    <form action="/list/{{ currencie.pk }}/predykcja/" method="post">
-    {% csrf_token %}
-    <button type="submit" name="make-prediction"  class="btn btn-info" value="{{ currencie.pk }}">Wykonaj predykcję</button>
-    </form>
-    <h3 id="market-symbol">{{ predicted_price }}</h3>
+    <a id="return-button" href="/list/{{ currencie.pk }}/">
+        <button class="btn btn-info">< Powrót</button>
+    </a>
+    <div class="about">
+        {% if predicting == False %}
+            <h3 id="market-symbol">Przewidywanie ceny dla {{ currencie.market_symbol }}</h3>
+            <p>Do wykonania predykcji użyję rekurencyjnej sieci neuronowej LSTM ..
+                <br><br>RNN-LSTM (LSTM jako long short term memory) to architektura rekurencyjnej sieci neuronowej,
+                <br>która w procesie nauki zapamiętuje wartości w dowolnych przedziałach.
+                <br>Tego typu architektura jest odpowiednia do klasyfikowania, przetwarzania i prognozowania szeregów
+                czasowych,
+                <br>w których pomiędzy ważnymi zdarzeniami występują przesunięcia czasowe nieznanych rozmiarów i
+                długości.
+            </p>
+            <form action="/list/{{ currencie.pk }}/predykcja/" method="post">
+                {% csrf_token %}
+                <button type="submit" name="make-prediction" id="btn-prediction" class="btn btn-info"
+                        value="{{ currencie.pk }}">Wykonaj
+                    predykcję
+                </button>
+            </form>
+        {% elif predicting == True %}
+            <h3 id="market-symbol">Przewidywany kurs: {{ predicted_price }}</h3> {{ img }}
+            <p>{{ message }}</p>
+        {% endif %}
+    </div>
 {% endblock %}
