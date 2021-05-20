@@ -7,7 +7,7 @@ from .services import my_historical_prices_api
 from plotly.offline import plot
 from plotly.graph_objs import Scatter
 import plotly.graph_objs as go
-from .services import predict_prices
+from .services import predict_prices, get_plot
 from datetime import datetime, timedelta
 
 
@@ -131,18 +131,28 @@ class PredictionPage(View):
 
     def post(self, request, currencie_id):
         currencie = CurrentPrices.objects.get(pk=currencie_id)
+        ctx = {}
         if "make-prediction" in request.POST:
-            predicted_price, prediction_status = predict_prices()
-            if currencie.average_price > predicted_price:
-                message = "W najbliższym dniu kurs będzie maleć. To nie jest dobra opcja na inwestycję."
-                img = '<img src="static/decrease.png" id="price-arrow" alt="decrease arrow">'
+            currencie_prices_len = len(my_historical_prices_api('2016-01-01 00:00:00', 'now', 86400, currencie.market_symbol[0:3], currencie.market_symbol[-3:]))
+            if currencie_prices_len < 100:
+                message = "Nie można wykonać predykcji. Waluta jest zbyt krótko na rynku aby przeanalizować jej zachowanie i przewidzieć trend."
+                predicting_status = "can't do prediction"
+                ctx = {"message": message,
+                       "predicting": predicting_status}
             else:
-                message = "Przewidywana cena jest wyższa. Zainwestuj teraz!"
-                img = '<img src="static/increase.png" id="price-arrow" alt="increase arrow">'
-            ctx = {"predicted_price": predicted_price,
-                   "predicting": prediction_status,
-                   "currencie": currencie,
-                   "message": message,
-                   "img": img}
-            return render(request, self.template_name, ctx)
-        return render(request, self.template_name)
+                predicted_price, prediction_status, actual_prices, prediction_prices = predict_prices(currencie.market_symbol[0:3], currencie.market_symbol[-3:])
+                chart = get_plot(actual_prices, prediction_prices)
+                if currencie.average_price > predicted_price:
+                    message = "W najbliższym dniu kurs będzie maleć. To nie jest dobry moment na inwestycję."
+                    img = 'decrease.png'
+                else:
+                    message = "Przewidywana cena jest wyższa. Zainwestuj teraz!"
+                    img = 'increase.png'
+                ctx = {"predicted_price": predicted_price,
+                       "predicting": prediction_status,
+                       "currencie": currencie,
+                       "message": message,
+                       "img": img,
+                       "chart": chart}
+                return render(request, self.template_name, ctx)
+        return render(request, self.template_name, ctx)

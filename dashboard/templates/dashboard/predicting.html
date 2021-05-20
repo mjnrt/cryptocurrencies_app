@@ -4,7 +4,7 @@
     <a id="return-button" href="/list/{{ currencie.pk }}/">
         <button class="btn btn-info">< Powrót</button>
     </a>
-    <div class="about">
+    <div class="predicted-section">
         {% if predicting == False %}
             <h3 id="market-symbol">Przewidywanie ceny dla {{ currencie.market_symbol }}</h3>
             <p>Do wykonania predykcji użyję rekurencyjnej sieci neuronowej LSTM ..
@@ -23,8 +23,12 @@
                 </button>
             </form>
         {% elif predicting == True %}
-            <h3 id="market-symbol">Przewidywany kurs: {{ predicted_price }}</h3> {{ img }}
-            <p>{{ message }}</p>
+            <h3 id="market-symbol">Przewidywany kurs: {{ predicted_price }} <img src="/static/{{ img }}" id="price-arrow" alt="predict arrow"></h3>
+            <p>{{ message }}</p><br>
+            <p>Dopasowanie modelu:</p>
+            <img src="data:image/png;base64, {{ chart|safe }}">
+        {% elif predicting == "can't do prediction" %}
+            <h3 id="market-symbol">{{ message }}</h3>
         {% endif %}
     </div>
 {% endblock %}

@@ -1,3 +1,5 @@
+from io import BytesIO
+import base64
 import requests
 from datetime import datetime
 import numpy as np
@@ -5,6 +7,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 from matplotlib.pylab import rcParams
+
 rcParams['figure.figsize'] = 20, 10
 
 
@@ -26,11 +29,11 @@ def my_historical_prices_api(from_time, to_time, interval, market, fiat):
 
 
 # --- PREDICTING MODEL ---
-def predict_prices():
+def predict_prices(market, fiat):
     from keras.models import Sequential
     from keras.layers import LSTM, Dropout, Dense
     # creating data
-    bitcoin_data = my_historical_prices_api('2016-01-01 00:00:00', 'now', 86400, 'BTC', 'PLN')
+    bitcoin_data = my_historical_prices_api('2016-01-01 00:00:00', 'now', 86400, market, fiat)
     date_array = [x[0] for x in bitcoin_data]
     close_prices = [y[2] for y in bitcoin_data]
     data = {'Date': date_array, 'Prices': close_prices}
@@ -69,7 +72,7 @@ def predict_prices():
     model.fit(x_train, y_train, epochs=25, batch_size=32)
 
     # testing data
-    test_bitcoin_data = my_historical_prices_api('2020-01-01 00:00:00', 'now', 86400, 'BTC', 'PLN')
+    test_bitcoin_data = my_historical_prices_api('2020-01-01 00:00:00', 'now', 86400, market, fiat)
     test_date_array = [x[0] for x in test_bitcoin_data]
     test_close_prices = [y[2] for y in test_bitcoin_data]
     test_data = {'Date': test_date_array, 'Prices': test_close_prices}
@@ -93,13 +96,19 @@ def predict_prices():
     prediction_prices = model.predict(x_test)
     prediction_prices = scaler.inverse_transform(prediction_prices)
 
+    actual_prices = [float(i) for i in actual_prices]
+    actual_prices = np.reshape(actual_prices, (-1, 1))
     plt.plot(actual_prices, color='black', label='Actual prices')
     plt.plot(prediction_prices, color='green', label='Predicted prices')
     plt.title('Prediction BTC')
     plt.xlabel('Time')
     plt.ylabel('Price')
     plt.legend(loc='upper left')
-    plt.show()
+    # plt.show()
+    print('--actual--')
+    print(actual_prices)
+    print('--predicted--')
+    print(prediction_prices)
 
     # predict next day
     real_data = [model_inputs[len(model_inputs) + 1 - prediction_days:len(model_inputs) + 1, 0]]
@@ -110,4 +119,29 @@ def predict_prices():
     prediction = scaler.inverse_transform(prediction)
 
     predicting_status = True
-    return prediction[0][0], predicting_status
+    return prediction[0][0], predicting_status, actual_prices, prediction_prices
+
+
+def get_graph():
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
+
+
+def get_plot(actual_prices, prediction_prices):
+    plt.switch_backend('AGG')
+    plt.figure(figsize=(9, 5))
+    plt.title('Prediction BTC')
+    plt.plot(actual_prices, color='black', label='Ceny rzeczywiste')
+    plt.plot(prediction_prices, color='green', label='Przewidywane ceny')
+    plt.xlabel('Time')
+    plt.ylabel('Price')
+    plt.legend(loc='upper left')
+    plt.tight_layout()
+    graph = get_graph()
+    return graph
