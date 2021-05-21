@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from dashboard.views import LandingPage, ListPage, SingleCryptoPage, PredictionPage, DataTablePage
+from dashboard.views import LandingPage, ListPage, SingleCryptoPage, PredictionPage, DataTablePage, FaqPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPage.as_view(), name='landing'),
+    path('faq/', FaqPage.as_view(), name='faq'),
     path('list/', ListPage.as_view(), name='list'),
     path('list/<int:currencie_id>/', SingleCryptoPage.as_view(), name='crypto'),
     path('list/<int:currencie_id>/predykcja/', PredictionPage.as_view(), name='predicting'),

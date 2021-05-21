@@ -5,14 +5,14 @@
 {% block content %}
     <div class="crypto-info">
         <div id="crypto-info-wrapper-1">
-            <h3 id="market-symbol">{{ crypto.market_symbol }}</h3>
+            <h3 class="market-symbol">{{ crypto.market_symbol }}</h3>
             <p>Minimalna wartość (24h): {{ crypto.lowest_price }}</p>
             <p>Maksymalna wartość (24h): {{ crypto.highest_price }}</p>
             <p>Średnia wartość (24h): {{ crypto.average_price }}</p>
         </div>
         <div id="crypto-info-wrapper-2">
-            <a id="return-button" href="{% url 'list' %}">
-                <button class="btn btn-info">< Powrót</button>
+            <a href="{% url 'list' %}">
+                <button id="return-button" class="btn btn-info">< Powrót</button>
             </a>
         </div>
     </div>
@@ -21,7 +21,7 @@
     {% endautoescape %}
     <div class="prediction-data">
         <div class="table-data">
-            <h3 id="market-symbol">Dane tabelaryczne</h3>
+            <h3 class="market-symbol">Dane tabelaryczne</h3>
             <p>Tabela danych:</p>
             <form action="/list/{{ crypto.pk }}/" method="post">
                 {% csrf_token %}
@@ -29,7 +29,7 @@
             </form>
         </div>
         <div class="prediction">
-            <h3 id="market-symbol">Przewidywanie kursu</h3>
+            <h3 class="market-symbol">Przewidywanie kursu</h3>
             <p>Przewiduj cenę:</p>
             <form action="/list/{{ crypto.pk }}/" method="post">
                 {% csrf_token %}
@@ -37,5 +37,5 @@
             </form>
         </div>
     </div>
-
+    <br>
 {% endblock %}

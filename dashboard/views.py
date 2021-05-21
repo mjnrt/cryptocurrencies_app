@@ -19,11 +19,19 @@ class LandingPage(View):
         return render(request, self.template_name, ctx)
 
 
+class FaqPage(View):
+    template_name = "dashboard/faq.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
 class ListPage(View):
     template_name = 'dashboard/list.html'
 
     def get(self, request):
         prices = my_api_schedule()
+        print(prices.reverse()[0].market_symbol, prices.reverse()[0].average_price)
         ctx = {'prices': prices}
         return render(request, self.template_name, ctx)
 
@@ -68,13 +76,17 @@ class SingleCryptoPage(View):
             cy.append(float(single_data[2]))
             vy.append(float(single_data[3]))
 
-        # layout = go.Layout(paper_bgcolor='')  # setting background plot color
-        fig = go.Figure()  # layout=layout
-        scatter1 = go.Scatter(x=ax, y=oy, mode='lines', name='open', opacity=0.8, marker_color='green')
+        layout = go.Layout(height=500, paper_bgcolor='#212529', plot_bgcolor='#212529', legend_font_color='white',
+                           font_color='white', font_size=14)  # setting background plot color
+        fig = go.Figure(layout=layout)
+        fig.update_xaxes(gridcolor="#4D4D4D")
+        fig.update_yaxes(gridcolor="#4D4D4D")
+        fig.update_xaxes(dividercolor="red")
+        scatter1 = go.Scatter(x=ax, y=oy, mode='lines', name='otwarcie', opacity=0.8, marker_color='#29FF00')
         fig.add_trace(scatter1)
-        scatter2 = go.Scatter(x=ax, y=cy, mode='lines', name='close', opacity=0.8, marker_color='red')
+        scatter2 = go.Scatter(x=ax, y=cy, mode='lines', name='zamknięcie', opacity=0.8, marker_color='#FF005A')
         fig.add_trace(scatter2)
-        scatter3 = go.Scatter(x=ax, y=vy, mode='lines', name='volume', opacity=0.8, marker_color='blue')
+        scatter3 = go.Scatter(x=ax, y=vy, mode='lines', name='wolumen', opacity=0.8, marker_color='#00F9FF')
         fig.add_trace(scatter3)
         plot_div = plot(fig, output_type='div')
         # plot_div = plot([Scatter(x=ax, y=ay,
@@ -112,7 +124,8 @@ class DataTablePage(View):
         else:
             dt1 = datetime.now() - timedelta(int(days_option))
             from_date = f"{dt1.year}-{dt1.month}-{dt1.day} {dt1.hour}:{dt1.minute}:{dt1.second}"
-            table_data = my_historical_prices_api(from_date, "now", 86400, currencie.market_symbol[0:3], currencie.market_symbol[-3:])
+            table_data = my_historical_prices_api(from_date, "now", 86400, currencie.market_symbol[0:3],
+                                                  currencie.market_symbol[-3:])
         table_data.reverse()
         ctx = {'table_data': table_data,
                'currencie': currencie}
@@ -133,15 +146,18 @@ class PredictionPage(View):
         currencie = CurrentPrices.objects.get(pk=currencie_id)
         ctx = {}
         if "make-prediction" in request.POST:
-            currencie_prices_len = len(my_historical_prices_api('2016-01-01 00:00:00', 'now', 86400, currencie.market_symbol[0:3], currencie.market_symbol[-3:]))
+            currencie_prices_len = len(
+                my_historical_prices_api('2016-01-01 00:00:00', 'now', 86400, currencie.market_symbol[0:3],
+                                         currencie.market_symbol[-3:]))
             if currencie_prices_len < 100:
                 message = "Nie można wykonać predykcji. Waluta jest zbyt krótko na rynku aby przeanalizować jej zachowanie i przewidzieć trend."
                 predicting_status = "can't do prediction"
                 ctx = {"message": message,
                        "predicting": predicting_status}
             else:
-                predicted_price, prediction_status, actual_prices, prediction_prices = predict_prices(currencie.market_symbol[0:3], currencie.market_symbol[-3:])
-                chart = get_plot(actual_prices, prediction_prices)
+                predicted_price, prediction_status, actual_prices, prediction_prices = predict_prices(
+                    currencie.market_symbol[0:3], currencie.market_symbol[-3:])
+                chart = get_plot(actual_prices, prediction_prices, currencie.market_symbol)
                 if currencie.average_price > predicted_price:
                     message = "W najbliższym dniu kurs będzie maleć. To nie jest dobry moment na inwestycję."
                     img = 'decrease.png'

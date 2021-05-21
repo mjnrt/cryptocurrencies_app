@@ -133,14 +133,14 @@ def get_graph():
     return graph
 
 
-def get_plot(actual_prices, prediction_prices):
+def get_plot(actual_prices, prediction_prices, market_symbol):
     plt.switch_backend('AGG')
     plt.figure(figsize=(9, 5))
-    plt.title('Prediction BTC')
+    plt.title(f'{market_symbol[0:3]}-{market_symbol[-3:]}')
     plt.plot(actual_prices, color='black', label='Ceny rzeczywiste')
     plt.plot(prediction_prices, color='green', label='Przewidywane ceny')
-    plt.xlabel('Time')
-    plt.ylabel('Price')
+    plt.xlabel('Czas')
+    plt.ylabel('Cena')
     plt.legend(loc='upper left')
     plt.tight_layout()
     graph = get_graph()

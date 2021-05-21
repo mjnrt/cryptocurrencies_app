@@ -3,11 +3,11 @@
 {% block content %}
     <div class="list-nav">
         <div class="list-nav-1">
-            <h3 id="market-symbol">Tabela kursów {{ currencie.market_symbol }}</h3>
+            <h3 class="market-symbol">Tabela kursów {{ currencie.market_symbol }}</h3>
         </div>
         <div class="days-option">
-            <a id="return-button" href="{% url 'crypto' currencie_id=currencie.pk %}">
-                <button class="btn btn-info">< Powrót</button>
+            <a href="{% url 'crypto' currencie_id=currencie.pk %}">
+                <button id="return-button" class="btn btn-info">< Powrót</button>
             </a>
             <form action="/list/{{ currencie.pk }}/tabela-danych/" method="post">
                 {% csrf_token %}

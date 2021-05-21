@@ -1,12 +1,12 @@
 {% extends 'dashboard/base.html' %}
 {% block title %}{% endblock %}
 {% block content %}
-    <a id="return-button" href="/list/{{ currencie.pk }}/">
-        <button class="btn btn-info">< Powrót</button>
+    <a href="/list/{{ currencie.pk }}/">
+        <button id="return-button" class="btn btn-info">< Powrót</button>
     </a>
     <div class="predicted-section">
         {% if predicting == False %}
-            <h3 id="market-symbol">Przewidywanie ceny dla {{ currencie.market_symbol }}</h3>
+            <h3 class="market-symbol">Przewidywanie ceny dla {{ currencie.market_symbol }}</h3>
             <p>Do wykonania predykcji użyję rekurencyjnej sieci neuronowej LSTM ..
                 <br><br>RNN-LSTM (LSTM jako long short term memory) to architektura rekurencyjnej sieci neuronowej,
                 <br>która w procesie nauki zapamiętuje wartości w dowolnych przedziałach.
@@ -17,18 +17,20 @@
             </p>
             <form action="/list/{{ currencie.pk }}/predykcja/" method="post">
                 {% csrf_token %}
-                <button type="submit" name="make-prediction" id="btn-prediction" class="btn btn-info"
+                <button type="submit" name="make-prediction" id="btn-prediction" class="btn btn-info" style="left: 80%"
                         value="{{ currencie.pk }}">Wykonaj
                     predykcję
                 </button>
             </form>
         {% elif predicting == True %}
-            <h3 id="market-symbol">Przewidywany kurs: {{ predicted_price }} <img src="/static/{{ img }}" id="price-arrow" alt="predict arrow"></h3>
+            <h3 class="market-symbol">Przewidywany kurs: {{ predicted_price }} <img src="/static/{{ img }}" id="price-arrow" alt="predict arrow"></h3>
             <p>{{ message }}</p><br>
             <p>Dopasowanie modelu:</p>
             <img src="data:image/png;base64, {{ chart|safe }}">
+            <p>Nie wiesz czym jest dopasowanie modelu? Zajrzyj do <a href="/faq/">FAQ</a></p>
         {% elif predicting == "can't do prediction" %}
-            <h3 id="market-symbol">{{ message }}</h3>
+            <h3 class="market-symbol">{{ message }}</h3>
         {% endif %}
     </div>
+    <br>
 {% endblock %}

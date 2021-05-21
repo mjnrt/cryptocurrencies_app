@@ -11,8 +11,9 @@
 <div class="page-container">
     <div>
         <ul class="navigation-bar">
-            <li id="nav-btn"><a href="{% url 'list' %}" class="active" id="nav-a">Crypto</a></li>
-            <li id="nav-btn" style="float:right"><a href="{% url 'landing' %}" id="nav-a">O aplikacji</a></li>
+            <li id="nav-btn" style="float:left"><a href="{% url 'list' %}" class="active" id="nav-a">Crypto</a></li>
+            <li id="nav-btn"><a href="{% url 'faq' %}" id="nav-a">FAQ</a></li>
+            <li id="nav-btn"><a href="{% url 'landing' %}" id="nav-a">O aplikacji</a></li>
         </ul>
     </div>
     <div class="content">{% block content %}{% endblock %}</div>

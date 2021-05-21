@@ -1,0 +1,23 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %} Crypto Analyser {% endblock %}
+
+{% block content %}
+    <div class="landing-container">
+        <div class="about">
+            <h3 class="market-symbol" style="border-bottom: 1px solid #4D4D4D; text-align: center">FAQ</h3><br>
+            <ol>
+                <li><h3 class="market-symbol">Czym jest dopasowanie modelu?</h3>
+                    <p>Im bardziej wykres przewidywanych cen pokrywa się z wykresem cen rzeczywistych tym lepiej dopasowany jest model.
+                    Oznacza to również wyższe prawdopodobieństwo wystąpienia przewidywanego kursu.</p>
+                </li>
+                <li><h3 class="market-symbol">Czy model potrafi przewidzieć cenę ze 100% skutecznością?</h3>
+                <p>Nie, ponieważ wzrost lub spadek kursu walut uzależniony jest od wielu czynników (także ekonomicznych, politycznych i społecznych),
+                których rekurencyjna sieć neuronowa RNN nie potrafi przewidzieć.</p></li>
+                <li><h3 class="market-symbol">Czym jest wolumen?</h3>
+                <p>To jeden z najważniejszych wskaźników do analizy technicznej rynku, który reprezentuje aktywność inwestorów - kupujących i sprzedających kryptowaluty - w danym przedziale czasu.
+                    Wolumen określa rzeczywiste zainteresowanie instrumentami finansowymi.</p></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
