@@ -13,10 +13,10 @@
                 {% csrf_token %}
                 <label for="days" id="days-label">Liczba dni:</label>
                 <select name="days" id="days">
-                    <option>30</option>
-                    <option>60</option>
-                    <option>120</option>
-                    <option>od początku roku</option>
+                    <option value="30" {% ifequal days "30" %}selected{% endifequal %}>30</option>
+                    <option value="60" {% ifequal days "60" %}selected{% endifequal %}>60</option>
+                    <option value="120" {% ifequal days "120" %}selected{% endifequal %}>120</option>
+                    <option value="od początku roku" {% ifequal days "od początku roku" %}selected{% endifequal %}>od początku roku</option>
                 </select>
                 <button type="submit" class="btn btn-info">Pokaż</button>
             </form>

@@ -31,7 +31,6 @@ class ListPage(View):
 
     def get(self, request):
         prices = my_api_schedule()
-        print(prices.reverse()[0].market_symbol, prices.reverse()[0].average_price)
         ctx = {'prices': prices}
         return render(request, self.template_name, ctx)
 
@@ -53,7 +52,8 @@ class ListPage(View):
                 if price.market_symbol[-3:] == 'USD':
                     filtered_prices.append(price)
         ctx = {
-            'prices': filtered_prices
+            'prices': filtered_prices,
+            'fiat': fiat,
         }
         return render(request, self.template_name, ctx)
 
@@ -128,7 +128,8 @@ class DataTablePage(View):
                                                   currencie.market_symbol[-3:])
         table_data.reverse()
         ctx = {'table_data': table_data,
-               'currencie': currencie}
+               'currencie': currencie,
+               'days': days_option}
         return render(request, self.template_name, ctx)
 
 

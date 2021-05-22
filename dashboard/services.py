@@ -32,6 +32,7 @@ def my_historical_prices_api(from_time, to_time, interval, market, fiat):
 def predict_prices(market, fiat):
     from keras.models import Sequential
     from keras.layers import LSTM, Dropout, Dense
+
     # creating data
     bitcoin_data = my_historical_prices_api('2016-01-01 00:00:00', 'now', 86400, market, fiat)
     date_array = [x[0] for x in bitcoin_data]
@@ -105,10 +106,6 @@ def predict_prices(market, fiat):
     plt.ylabel('Price')
     plt.legend(loc='upper left')
     # plt.show()
-    print('--actual--')
-    print(actual_prices)
-    print('--predicted--')
-    print(prediction_prices)
 
     # predict next day
     real_data = [model_inputs[len(model_inputs) + 1 - prediction_days:len(model_inputs) + 1, 0]]

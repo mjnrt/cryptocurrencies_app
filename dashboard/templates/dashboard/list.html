@@ -12,10 +12,10 @@
                 {% csrf_token %}
                 <label for="fiat" id="fiat-label">Waluta:</label>
                 <select name="fiat" id="fiat">
-                    <option>PLN</option>
-                    <option>EUR</option>
-                    <option>GBP</option>
-                    <option>USD</option>
+                    <option value="PLN" {% ifequal fiat "PLN" %}selected{% endifequal %}>PLN</option>
+                    <option value="EUR" {% ifequal fiat "EUR" %}selected{% endifequal %}>EUR</option>
+                    <option value="GBP" {% ifequal fiat "GBP" %}selected{% endifequal %}>GBP</option>
+                    <option value="USD" {% ifequal fiat "USD" %}selected{% endifequal %}>USD</option>
                 </select>
                 <button type="submit" class="btn btn-info">Zmień</button>
             </form>
